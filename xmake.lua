@@ -33,6 +33,19 @@ target("chip8")
     add_deps("chip8_lib")
     add_files("src/main.c")
 
+task("format")
+    set_category("plugin")
+    on_run(function()
+        import("core.project.project")
+        local files = os.files("src/*.c")
+        table.join2(files, os.files("include/*.h"))
+        os.execv("clang-format", table.join({"-i"}, files))
+    end)
+    set_menu({
+        usage = "xmake format",
+        description = "Format all source files with clang-format",
+    })
+
 -- Placeholder test — verifies the Unity harness is wired up before any
 -- interpreter code exists. Does not depend on chip8_lib.
 -- Unity is vendored under vendor/unity/ (no package manager required).
