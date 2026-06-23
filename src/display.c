@@ -12,9 +12,8 @@ void display_clear(chip8_display *disp)
     // TODO (§7.1, §9 CLS/00E0): zero all of disp->pixels[][].
 }
 
-bool display_draw_sprite(chip8_display *disp, uint8_t x, uint8_t y,
-                         const uint8_t *sprite_data, uint8_t n,
-                         bool clip_sprites)
+bool display_draw_sprite(chip8_display *disp, uint8_t x, uint8_t y, const uint8_t *sprite_data,
+                         uint8_t n, bool clip_sprites)
 {
     (void)disp;
     (void)x;

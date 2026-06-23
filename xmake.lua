@@ -33,6 +33,31 @@ target("chip8")
     add_deps("chip8_lib")
     add_files("src/main.c")
 
+task("setup")
+    set_category("plugin")
+    on_run(function()
+        os.execv("git", {"config", "core.hooksPath", ".githooks"})
+        print("git hooks installed")
+    end)
+    set_menu({
+        usage = "xmake setup",
+        description = "Wire up .githooks (run once after cloning)",
+    })
+
+task("format")
+    set_category("plugin")
+    on_run(function()
+        import("core.project.project")
+        local files = os.files("src/*.c")
+        table.join2(files, os.files("include/*.h"))
+        table.join2(files, os.files("tests/*.c"))
+        os.execv("clang-format", table.join({"-i"}, files))
+    end)
+    set_menu({
+        usage = "xmake format",
+        description = "Format all source files with clang-format",
+    })
+
 -- Placeholder test — verifies the Unity harness is wired up before any
 -- interpreter code exists. Does not depend on chip8_lib.
 -- Unity is vendored under vendor/unity/ (no package manager required).
@@ -42,3 +67,11 @@ target("test_placeholder")
     add_includedirs("vendor/unity")
     add_files("tests/test_placeholder.c", "vendor/unity/unity.c")
     add_tests("placeholder")
+
+target("test_memory")
+    set_kind("binary")
+    set_default(false)
+    add_deps("chip8_lib")
+    add_includedirs("vendor/unity")
+    add_files("tests/test_memory.c", "vendor/unity/unity.c")
+    add_tests("memory")

@@ -4,8 +4,8 @@
 #include <stddef.h>
 #include <stdint.h>
 
-#define CHIP8_MEM_SIZE   4096  // §3.1
-#define CHIP8_ROM_START  0x200 // §3.2 — default load address
+#define CHIP8_MEM_SIZE 4096 // §3.1
+#define CHIP8_ROM_START 0x200 // §3.2 — default load address
 #define CHIP8_FONT_START 0x050 // §3.3 — recommended font location
 
 typedef struct

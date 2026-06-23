@@ -11,12 +11,12 @@
 // Aggregates all VM state. The cpu module owns the fetch-decode-execute loop.
 typedef struct
 {
-    chip8_memory    mem;
+    chip8_memory mem;
     chip8_registers regs;
-    chip8_stack     stack;
-    chip8_display   display;
-    chip8_input     input;
-    chip8_config    config;
+    chip8_stack stack;
+    chip8_display display;
+    chip8_input input;
+    chip8_config config;
 } chip8_cpu;
 
 // TODO (§4, Appendix B): initialise every sub-component (memory_init,

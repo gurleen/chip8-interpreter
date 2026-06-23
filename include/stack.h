@@ -9,7 +9,7 @@
 typedef struct
 {
     uint16_t data[CHIP8_STACK_DEPTH];
-    uint8_t  top; // index of the next free slot; 0 = empty
+    uint8_t top; // index of the next free slot; 0 = empty
 } chip8_stack;
 
 // TODO (§6): zero data[], set top = 0.
