@@ -50,6 +50,7 @@ task("format")
         import("core.project.project")
         local files = os.files("src/*.c")
         table.join2(files, os.files("include/*.h"))
+        table.join2(files, os.files("tests/*.c"))
         os.execv("clang-format", table.join({"-i"}, files))
     end)
     set_menu({
