@@ -28,7 +28,9 @@ void setUp(void)
     memory_init(&mem);
 }
 
-void tearDown(void) {}
+void tearDown(void)
+{
+}
 
 // memory_init must zero all RAM; spot-check bytes before, between, and after the font region.
 void test_init_zeroes_non_font_ram(void)
@@ -63,7 +65,7 @@ void test_load_rom_accepts_maximum_size(void)
 {
     // Largest ROM that exactly fills program space.
     static uint8_t max_rom[CHIP8_MEM_SIZE - CHIP8_ROM_START];
-    max_rom[0]                          = 0x12;
+    max_rom[0] = 0x12;
     max_rom[CHIP8_MEM_SIZE - CHIP8_ROM_START - 1] = 0x34;
     int rc = memory_load_rom(&mem, max_rom, sizeof(max_rom));
     TEST_ASSERT_EQUAL_INT(0, rc);
@@ -86,7 +88,8 @@ void test_read_write_byte_round_trip(void)
     TEST_ASSERT_EQUAL_UINT8(0x42, memory_read_byte(&mem, 0x300));
 }
 
-// Addresses wider than 12 bits must be silently masked; bits 12+ are ignored on both read and write.
+// Addresses wider than 12 bits must be silently masked; bits 12+ are ignored on both read and
+// write.
 void test_read_write_byte_masks_to_12_bits(void)
 {
     memory_write_byte(&mem, 0x1234, 0x99);
