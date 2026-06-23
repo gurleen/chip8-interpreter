@@ -1,37 +1,3 @@
-
-CHIP-8 Emulator
-I want to build a CHIP-8 emulator in C to learn both the language and to learn emulator development. I am targeting x86 desktops but ideally it’s portable.
-
-
-
-How can I help you today?
-
-
-Modern C build tools and compilers
-Last message 2 minutes ago
-Setting up interpreter project in Linear
-Last message 14 minutes ago
-CHIP-8 emulator RFC specification
-Last message 1 hour ago
-Memory
-Only you
-Project memory will show here after a few chats.
-
-Instructions
-Add instructions to tailor Claude’s responses
-
-Files
-1% of project capacity used
-
-chip8-interpreter-spec.md
-517 lines
-
-md
-
-
-chip8-interpreter-spec.md
-
-
 # RFC: CHIP-8 Interpreter Specification
  
 | Field | Value |
