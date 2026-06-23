@@ -1,0 +1,8 @@
+#!/bin/sh
+set -e
+
+staged=$(git diff --cached --name-only --diff-filter=ACMR | grep -E '\.(c|h)$' || true)
+[ -z "$staged" ] && exit 0
+
+echo "$staged" | xargs clang-format -i
+echo "$staged" | xargs git add

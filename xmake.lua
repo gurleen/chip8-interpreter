@@ -33,6 +33,17 @@ target("chip8")
     add_deps("chip8_lib")
     add_files("src/main.c")
 
+task("setup")
+    set_category("plugin")
+    on_run(function()
+        os.execv("git", {"config", "core.hooksPath", ".githooks"})
+        print("git hooks installed")
+    end)
+    set_menu({
+        usage = "xmake setup",
+        description = "Wire up .githooks (run once after cloning)",
+    })
+
 task("format")
     set_category("plugin")
     on_run(function()
