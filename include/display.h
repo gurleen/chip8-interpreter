@@ -23,9 +23,8 @@ void display_clear(chip8_display *disp);
 //   (x mod 64, y mod 32); clip pixels past the right/bottom edge when
 //   clip_sprites is true; return true on collision (any lit pixel turned off).
 //   I is not modified here — the caller passes sprite_data = &ram[I].
-bool display_draw_sprite(chip8_display *disp, uint8_t x, uint8_t y,
-                         const uint8_t *sprite_data, uint8_t n,
-                         bool clip_sprites);
+bool display_draw_sprite(chip8_display *disp, uint8_t x, uint8_t y, const uint8_t *sprite_data,
+                         uint8_t n, bool clip_sprites);
 
 // TODO (§7.1): return the pixel state at (x, y); bounds-check or wrap.
 uint8_t display_get_pixel(const chip8_display *disp, uint8_t x, uint8_t y);
