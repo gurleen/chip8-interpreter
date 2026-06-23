@@ -1,41 +1,54 @@
 #include "memory.h"
 
+#include <string.h>
+
+static const uint8_t chip8_font[80] = {
+    0xF0, 0x90, 0x90, 0x90, 0xF0, // 0
+    0x20, 0x60, 0x20, 0x20, 0x70, // 1
+    0xF0, 0x10, 0xF0, 0x80, 0xF0, // 2
+    0xF0, 0x10, 0xF0, 0x10, 0xF0, // 3
+    0x90, 0x90, 0xF0, 0x10, 0x10, // 4
+    0xF0, 0x80, 0xF0, 0x10, 0xF0, // 5
+    0xF0, 0x80, 0xF0, 0x90, 0xF0, // 6
+    0xF0, 0x10, 0x20, 0x40, 0x40, // 7
+    0xF0, 0x90, 0xF0, 0x90, 0xF0, // 8
+    0xF0, 0x90, 0xF0, 0x10, 0xF0, // 9
+    0xF0, 0x90, 0xF0, 0x90, 0x90, // A
+    0xE0, 0x90, 0xE0, 0x90, 0xE0, // B
+    0xF0, 0x80, 0x80, 0x80, 0xF0, // C
+    0xE0, 0x90, 0x90, 0x90, 0xE0, // D
+    0xF0, 0x80, 0xF0, 0x80, 0xF0, // E
+    0xF0, 0x80, 0xF0, 0x80, 0x80 // F
+};
+
 void memory_init(chip8_memory *mem)
 {
-    (void)mem;
-    // TODO (§3.1, §3.3): zero all of mem->ram[], then call memory_load_font(mem).
+    memset(mem->ram, 0, CHIP8_MEM_SIZE);
+    memory_load_font(mem);
 }
 
 void memory_load_font(chip8_memory *mem)
 {
-    (void)mem;
-    // TODO (§3.3, §7.3): write the 16 × 5-byte glyphs from the §7.3 table into
-    //   mem->ram[CHIP8_FONT_START .. CHIP8_FONT_START + 79].
-    //   Digit 0: F0 90 90 90 F0  …  Digit F: F0 80 F0 80 80.
+    memcpy(&mem->ram[CHIP8_FONT_START], &chip8_font, sizeof(chip8_font));
 }
 
 int memory_load_rom(chip8_memory *mem, const uint8_t *rom, size_t len)
 {
-    (void)mem;
-    (void)rom;
-    (void)len;
-    // TODO (§4, §13): if len > CHIP8_MEM_SIZE - CHIP8_ROM_START return -1;
-    //   otherwise memcpy(mem->ram + CHIP8_ROM_START, rom, len), return 0.
+    if (len > CHIP8_MEM_SIZE - CHIP8_ROM_START)
+    {
+        return -1;
+    }
+
+    memcpy(mem->ram + CHIP8_ROM_START, rom, len);
     return 0;
 }
 
 uint8_t memory_read_byte(const chip8_memory *mem, uint16_t addr)
 {
-    (void)mem;
-    (void)addr;
-    // TODO (§3.1, §13): return mem->ram[addr & 0xFFF].
-    return 0;
+    return mem->ram[addr & 0xFFF];
 }
 
 void memory_write_byte(chip8_memory *mem, uint16_t addr, uint8_t value)
 {
-    (void)mem;
-    (void)addr;
-    (void)value;
-    // TODO (§3.1, §13): mem->ram[addr & 0xFFF] = value.
+    mem->ram[addr & 0xFFF] = value;
 }
