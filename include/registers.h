@@ -15,7 +15,6 @@ typedef struct
     uint8_t st; // §5.3 — sound timer (60 Hz countdown; tone while > 0)
 } chip8_registers;
 
-// TODO (§4, Appendix B): zero V0..VF, I, DT, ST, SP; set PC = load_addr.
 void registers_init(chip8_registers *regs, uint16_t load_addr);
 
 #endif /* CHIP8_REGISTERS_H */
