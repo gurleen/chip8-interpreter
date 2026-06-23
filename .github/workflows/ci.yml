@@ -1,0 +1,48 @@
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+jobs:
+  build-and-test:
+    name: Debug build + sanitized tests
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Set up xmake
+        uses: xmake-io/github-action-setup-xmake@v1
+        with:
+          xmake-version: latest
+
+      # Unity is vendored under vendor/unity/ — no package download needed.
+      - name: Configure (debug + sanitizers)
+        run: xmake f -m debug -y
+
+      - name: Build
+        run: xmake build -y
+
+      # Tests are compiled and run under AddressSanitizer + UBSan because
+      # the debug-mode cflags apply to the test target too.
+      - name: Run tests
+        run: xmake test -v
+
+  clang-format-check:
+    name: clang-format check
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Install clang-format
+        run: sudo apt-get install -y clang-format
+
+      - name: Check formatting
+        run: |
+          find src include tests \( -name '*.c' -o -name '*.h' \) \
+            | xargs clang-format --dry-run --Werror
+          # vendor/ is excluded intentionally — third-party code is not reformatted.

@@ -1,0 +1,95 @@
+# chip8-emu
+
+A CHIP-8 interpreter written in C — work in progress.
+
+## Prerequisites
+
+- [xmake](https://xmake.io) ≥ 2.7 (build system + package manager)
+- C17-capable compiler — GCC ≥ 9 or Clang ≥ 8
+- AddressSanitizer and UBSan (bundled with GCC/Clang; needed for the debug build)
+
+Install xmake on macOS:
+
+```sh
+brew install xmake
+```
+
+Install xmake on Linux:
+
+```sh
+curl -fsSL https://xmake.io/shget.text | bash
+```
+
+## Build
+
+```sh
+# Debug (default) — AddressSanitizer + UBSan, -g, full warnings
+xmake f -m debug
+xmake
+
+# Release — -O2, no sanitizers
+xmake f -m release
+xmake
+```
+
+The first build downloads and compiles the Unity test framework via xrepo
+automatically.
+
+## Test
+
+```sh
+xmake test
+```
+
+Tests are compiled under the same flags as the debug build, so
+AddressSanitizer and UBSan catch errors inside test code too.
+
+## Run
+
+```sh
+xmake run chip8 path/to/rom.ch8
+```
+
+## Format
+
+Check (mirrors the CI gate):
+
+```sh
+find src include tests \( -name '*.c' -o -name '*.h' \) \
+  | xargs clang-format --dry-run --Werror
+```
+
+Fix in place:
+
+```sh
+find src include tests \( -name '*.c' -o -name '*.h' \) \
+  | xargs clang-format -i
+```
+
+## Project layout
+
+```
+include/          public module headers
+src/              module implementations + main.c
+tests/            Unity test sources
+.clang-format     formatting rules (Allman, 4-space, 100-col)
+.clang-tidy       static analysis config
+.github/
+  workflows/
+    ci.yml        debug build → xmake test → clang-format check
+xmake.lua         build definition (debug/release modes, Unity via xrepo)
+chip8-interpreter-spec.md  RFC spec (authoritative reference)
+```
+
+## Module overview
+
+| Module | Header | Spec sections |
+|---|---|---|
+| `memory` | `include/memory.h` | §3, §4 |
+| `registers` | `include/registers.h` | §5 |
+| `stack` | `include/stack.h` | §6 |
+| `display` | `include/display.h` | §7 |
+| `input` | `include/input.h` | §8 |
+| `cpu` | `include/cpu.h` | §9, §11 |
+| `timers` | `include/timers.h` | §10 |
+| `config` | `include/config.h` | §12 |

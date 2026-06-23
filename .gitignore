@@ -1,0 +1,13 @@
+# xmake build artifacts
+build/
+.xmake/
+
+# Editor
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# macOS
+.DS_Store
