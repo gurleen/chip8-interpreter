@@ -1,12 +1,19 @@
 #include "cpu.h"
 
+#include "display.h"
+#include "input.h"
+#include "memory.h"
+#include "registers.h"
+#include "stack.h"
+
 void cpu_init(chip8_cpu *cpu, const chip8_config *cfg)
 {
-    (void)cpu;
-    (void)cfg;
-    // TODO (§4, Appendix B): call memory_init, registers_init(CHIP8_ROM_START),
-    //   stack_init, display_init, input_init on the corresponding sub-fields;
-    //   copy *cfg into cpu->config.
+    memory_init(&cpu->mem);
+    registers_init(&cpu->regs, CHIP8_ROM_START);
+    stack_init(&cpu->stack);
+    display_init(&cpu->display);
+    input_init(&cpu->input);
+    cpu->config = *cfg;
 }
 
 int cpu_step(chip8_cpu *cpu)
